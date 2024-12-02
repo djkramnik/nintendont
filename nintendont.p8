@@ -25,6 +25,7 @@ slowdown=false
 maxspeed=0
 spover=-1
 ass="???"
+fallmax=4
 
 function _update()
   local t=0
@@ -107,6 +108,10 @@ function _update()
     v=initv+(btntick)
     nxtvdisp = ydiff(v,t,g)
     ydelta=nxtvdisp - vdisp
+    ydelta=min(
+    max(ydelta,fallmax*-1),
+    fallmax)
+    
     vdisp=nxtvdisp
   else
     v=0
@@ -145,6 +150,9 @@ function _update()
   end 
   
   ny -= ydelta
+  if (ny > 128) then
+   ny = 0
+  end
 
 end
 
@@ -154,6 +162,7 @@ function _draw()
  map()
  print(jumping)
  print(ass)
+ print(ny)
  --print("wtf"..tostr(mget(7,10)))
  --print(vdisp)
  --print(running)
