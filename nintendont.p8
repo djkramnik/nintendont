@@ -29,7 +29,10 @@ ass="???"
 function _update()
   local t=0
   local powa=0
-
+  local ydelta =0
+  local nxtvdisp = 0
+  
+  ass=touchgrass(nx,ny)
   -- extract out hv manip?  negative if leftie? if/elseif/else block at beginning?
   if (btn(0)) then
     leftie=true
@@ -79,18 +82,18 @@ function _update()
   and not running
   
   if(not jumping) then
-   local jtest=
-   (jbtn and ny==inity) or
-   (vdisp > 0)
+   local jtest=bejump(false,jbtn,ass)
   
   if (jtest) then
-    initv = running and 18 or 15 
+    if (jbtn) then
+     initv = running and 18 or 15
+    else
+     initv = 0
+    end
   end  
   end
   -- i no this is fucked but i need this
-  jumping=
-   (jbtn and ny==inity) or
-   (vdisp > 0)
+  jumping= bejump(jumping,jbtn,ass)
   
   if(jumping) then
     v=initv
@@ -102,7 +105,9 @@ function _update()
      btnrls=true
     end
     v=initv+(btntick)
-    vdisp=ydiff(v,t,g)
+    nxtvdisp = ydiff(v,t,g)
+    ydelta=nxtvdisp - vdisp
+    vdisp=nxtvdisp
   else
     v=0
     jtick=0
@@ -138,13 +143,16 @@ function _update()
   else
    nx+=speed
   end 
-  ass=touchgrass(nx,min(inity, ny-vdisp))
+  
+  ny -= ydelta
+
 end
 
 function _draw()
  cls()
- spr(1,nx,min(inity, ny-vdisp),1,1,leftie)
+ spr(1,nx,ny,1,1,leftie)
  map()
+ print(jumping)
  print(ass)
  --print("wtf"..tostr(mget(7,10)))
  --print(vdisp)
@@ -158,6 +166,10 @@ function _draw()
 end
 
 -->8
+function bejump(prev,jbtn,ass)
+  return not ass or (jbtn and not prev)
+end
+
 function ydiff(v,t,g)
  return (v*t) - (0.5*g*t*t)
 end
@@ -176,17 +188,7 @@ function touchgrass(x,y)
   lt = mget(cxl,cyl) == 2
   rt = mget(cxr,cyr) == 2
   
-  if(lt and not rt) then
-  return "left"
-  end
-  if (lt and rt) then
-  return "both"
-  end
-  if (rt) then
-  return "right"
-  end
-  return "falling"
-  
+  return lt or rt
 end
 __gfx__
 0000000008888880bbbbbbbb00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
