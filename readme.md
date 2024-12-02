@@ -12,20 +12,10 @@ from my natty mountain platforming idea
 ## TODO
 
 
-
-
-
+prevent jumping again until jump button released
 we need horizontal collision detection.  and perhaps some kind of pushback
 when we stop jumping, we may need to adjust ny to be ceil.  to go to the nearest smallest multiple of 8
-
 then, hitting head on block
-// can also check this whilst jumping or falling
-// whilst jumping will immediately send it to falling 
-// whilst 
-function bustinghead(nx, ny)
-  similar thing
-end
-
 then, goomba? 
 then, trampoline? 
 
