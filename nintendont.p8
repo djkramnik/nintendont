@@ -37,6 +37,7 @@ function _update()
   local nxtvdisp = 0
   local ogdisp = vdisp
   
+  -- ass is used for jump and is more strict
   ass=touchgrass(nx,ny)
   -- extract out hv manip?  negative if leftie? if/elseif/else block at beginning?
   if (btn(0)) then
@@ -236,8 +237,10 @@ end
 
 
 
-function bejump(prev,jbtn,ass,jr)
-  return not ass or (jbtn and not prev and jr)
+function bejump(
+prev,jbtn,ass,jr)
+  return not ass or 
+  (jbtn and not prev and jr)
 end
 
 function ydiff(v,t,g)
@@ -266,9 +269,9 @@ function bumpl(x,y)
 end
 
 function touchgrass(x,y)
-  lx = x
+  lx = x+1
   ly = y+8
-  rx = x+8
+  rx = x+7
   ry = y+8
   
   cxl = flr(lx/8)
