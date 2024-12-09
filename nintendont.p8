@@ -28,14 +28,17 @@ spover=-1
 ass="???"
 fallmax=4
 log=false
+ydelta=0
+bumphead=false
 
 function _update()
   local t=0
   local powa=0
-  local ydelta =0
   local xdelta = 0
   local nxtvdisp = 0
   local ogdisp = vdisp
+  
+  ydelta = 0
   
   -- ass is used for jump and is more strict
   ass=touchgrass(nx,ny)
@@ -73,7 +76,7 @@ function _update()
     jbtn=true
   else
     jbtn=false
-    jrelease=true
+    jrelease=touchgrass(nx,ny)
   end
   
   if (btn(5)) then
@@ -104,6 +107,7 @@ function _update()
   bejump(jumping,jbtn,ass,jrelease)
   
   if(jumping) then
+    jrelease = not jbtn
     v=initv
     jtick+=1
     t=(jtick/jdiv)
@@ -121,6 +125,13 @@ function _update()
     
     vdisp=nxtvdisp
     
+    if(ydelta>0) then
+      if(bumph(nx,ny - ydelta)) then
+       bumphead=true
+       initv=0
+       btnrls=true
+      end
+    end
     -- if on the way up (+vdisp?)
     -- and bumph then
     -- set bump head flag
@@ -165,19 +176,23 @@ function _update()
   end 
   
   ny -= ydelta
+  nx += xdelta
   
-  leftbump = bumpl(nx+xdelta,ny)
-  rightbump = bumpr(nx+xdelta,ny)
-  if (not rightbump and not leftbump) then
-   nx += xdelta
-  elseif(leftbump) then
-   nx += xdelta
+  if (bumphead) then
+   ny = nearestprevmultiple(ceil(ny))
+   bumphead=false
+  end
+  
+  
+  leftbump = bumpl(nx,ny)
+  rightbump = bumpr(nx,ny)
+
+  if(leftbump) then
    if (leftie) then
     nx = nearestprevmultiple(flr(nx))
    end
    speed=0
   elseif(rightbump) then
-   nx += xdelta
    if (not leftie) then
     nx = nearestmultiple(ceil(nx))
    end
@@ -204,8 +219,8 @@ function _draw()
  cls()
  spr(3,nx,ny,1,1,leftie)
  map()
- print(nx)
- print(ny)
+ print(jbtn)
+ print(jrelease)
  --print(jumping)
  --print(ass)
  --print(ny)
@@ -247,7 +262,7 @@ end
 function bejump(
 prev,jbtn,ass,jr)
   return not ass or 
-  (jbtn and not prev and jr)
+  (jbtn and (not prev) and jr)
 end
 
 function ydiff(v,t,g)
