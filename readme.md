@@ -12,12 +12,20 @@ from my natty mountain platforming idea
 ## TODO
 
 
-prevent jumping again until jump button released
-we need horizontal collision detection.  and perhaps some kind of pushback
-when we stop jumping, we may need to adjust ny to be ceil.  to go to the nearest smallest multiple of 8
-then, hitting head on block
 then, goomba? 
-then, trampoline? 
+* abstract out the way a sprite moves around the screen from player input 
+* then refactor player movement to use the same abstraction as goomba
+* and split out logic that deals with changing the variables to effect player movement
+
+* a utility that causes a value to change over a period of time, by a step or formula 
+
+
+then, trampoline?
+breakable blocks?
+coin blocks? 
+screen scroll?
+
+
 
 
 
