@@ -12,12 +12,14 @@ from my natty mountain platforming idea
 ## TODO
 
 
-then, goomba? 
+then, goomba?
+
+* a utility that causes a value to change over a period of time, by a step or formula 
+* use this utility to test out playing the squish animation for the goomba
+
 * abstract out the way a sprite moves around the screen from player input 
 * then refactor player movement to use the same abstraction as goomba
 * and split out logic that deals with changing the variables to effect player movement
-
-* a utility that causes a value to change over a period of time, by a step or formula 
 
 
 then, trampoline?
